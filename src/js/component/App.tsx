@@ -4,7 +4,8 @@
  */
 import {OrbitControls, SoftShadows} from '@react-three/drei'
 import {Canvas} from '@react-three/fiber'
-import {Physics, RigidBody} from '@react-three/rapier'
+import {CuboidCollider, Physics, RigidBody} from '@react-three/rapier'
+import {Box} from './app/Box.tsx'
 
 export const App = () => {
   return (
@@ -17,22 +18,19 @@ export const App = () => {
       <directionalLight intensity={5} position={[1, 1, 1]} castShadow={true} />
 
       <Physics>
-        <RigidBody>
-          <mesh position={[0, 3, 0]} castShadow={true}>
-            <boxGeometry />
-            <meshStandardMaterial color="lime" />
-          </mesh>
-        </RigidBody>
-
-        <RigidBody type="fixed">
-          <mesh
-            scale={[10, 0.1, 10]}
-            position={[0, -0.05, 0]}
-            receiveShadow={true}
-          >
-            <boxGeometry />
-            <meshStandardMaterial color="hotpink" />
-          </mesh>
+        <Box position={[0, 2, 0]} castShadow={true} color="lime" />
+        <Box
+          rigidBodyType="fixed"
+          color="hotpink"
+          scale={[15, 0.1, 15]}
+          position={[0, -0.05, 0]}
+          receiveShadow={true}
+        />
+        <RigidBody type="fixed" colliders={false}>
+          <CuboidCollider args={[1, 2, 7.5]} position={[8.5, 2, 0]} />
+          <CuboidCollider args={[1, 2, 7.5]} position={[-8.5, 2, 0]} />
+          <CuboidCollider args={[7.5, 2, 1]} position={[0, 2, 8.5]} />
+          <CuboidCollider args={[7.5, 2, 1]} position={[0, 2, -8.5]} />
         </RigidBody>
       </Physics>
     </Canvas>
